@@ -58,7 +58,7 @@ fun AppContent() {
                         orientationHeight = orientationHeight,
                         orientationWidth = orientationWidth,
                         playerValue = { row, col ->
-                            viewModel.getValue(row, col)
+                            viewModel.getPlayer(row, col)
                         }
                     ) { row, col ->
                         viewModel.printPosition(row, col)

@@ -2,9 +2,8 @@ package es.genol.tictactoe.ui.state
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import es.genol.tictactoe.data.model.Ficha
 import kotlin.random.Random
-
-data class Ficha(val row: Int, val col: Int, var status: Boolean?)
 
 class TicTacToeViewModel : ViewModel() {
     private var buttonStateList = mutableStateListOf<Ficha>()
@@ -15,15 +14,16 @@ class TicTacToeViewModel : ViewModel() {
     }
 
     fun printPosition(row: Int, col: Int) {
-        val tempIndex =
-            buttonStateList.indexOf(buttonStateList.find { (it.row == row && it.col == col) })
-        buttonStateList[tempIndex] = buttonStateList[tempIndex].copy(status = playerChange)
-        horizontalCheck(player = playerChange)
-        playerChange = !playerChange
+        val index = buttonStateList.indexOf(buttonStateList.find { (it.row == row && it.col == col) })
+        if (buttonStateList[index].player == null) {
+            buttonStateList[index] = buttonStateList[index].copy(player = playerChange)
+            horizontalCheck(player = playerChange)
+            playerChange = !playerChange
+        }
     }
 
-    fun getValue(row: Int, col: Int): Boolean? {
-        return buttonStateList.find { (it.row == row && it.col == col) }?.status
+    fun getPlayer(row: Int, col: Int): Boolean? {
+        return buttonStateList.find { (it.row == row && it.col == col) }?.player
     }
 
     fun boardReboot() {
@@ -49,7 +49,7 @@ class TicTacToeViewModel : ViewModel() {
         for (i in 0..6 step 3) {
             result = 0
             for (n in i..i + 2) {
-                if (buttonStateList[n].status == player){
+                if (buttonStateList[n].player == player){
                     result++
                 }
                 if (result == 3) return true

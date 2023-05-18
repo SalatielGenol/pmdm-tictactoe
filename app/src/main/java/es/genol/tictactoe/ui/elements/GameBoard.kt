@@ -43,10 +43,10 @@ fun GameBoard(
                         modifier = Modifier.size(75.dp),
                         shape = CircleShape
                     ) {
-                        playerValue(row, col).let {
-                            if (it == true){
+                        playerValue(row, col).let { player ->
+                            if (player == true){
                                 CircleIcon()
-                            }else if(it == false){
+                            }else if(player == false){
                                 CrossIcon()
                             }
                         }
