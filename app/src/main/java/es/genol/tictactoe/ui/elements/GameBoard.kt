@@ -20,6 +20,7 @@ fun GameBoard(
     orientationHeight: Float,
     orientationWidth: Float,
     playerValue: (Int, Int) -> Boolean?,
+    buttonEnabled: Boolean,
     onButtonClick: (Int, Int) -> Unit
 ) {
     Column(
@@ -41,12 +42,13 @@ fun GameBoard(
                     Button(
                         onClick = { onButtonClick(row, col) },
                         modifier = Modifier.size(75.dp),
+                        enabled = buttonEnabled,
                         shape = CircleShape
                     ) {
-                        playerValue(row, col).let { player ->
-                            if (player == true){
+                        playerValue(row, col)?.let { player ->
+                            if (player){
                                 CircleIcon()
-                            }else if(player == false){
+                            }else if(!player){
                                 CrossIcon()
                             }
                         }

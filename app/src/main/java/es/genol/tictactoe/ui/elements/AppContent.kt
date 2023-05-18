@@ -8,10 +8,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,6 +30,7 @@ fun AppContent() {
     val configuration = LocalConfiguration.current
     val orientationHeight: Float
     val orientationWidth: Float
+    val snackBarState = remember { SnackbarHostState() }
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
@@ -35,6 +41,16 @@ fun AppContent() {
         else -> {
             orientationHeight = 1f
             orientationWidth = .35f
+        }
+    }
+
+    if (viewModel.isWinner) {
+        LaunchedEffect(key1 = viewModel.isWinner) {
+            viewModel.resetFromSnackBar(snackBarState.showSnackbar(
+                message = "Ganador",
+                actionLabel = "Reiniciar",
+                duration = SnackbarDuration.Indefinite
+            ))
         }
     }
 
@@ -51,7 +67,7 @@ fun AppContent() {
                             Text(text = "REINICIAR")
                         }
                     })
-            }) {
+            }, snackbarHost = { SnackbarHost(hostState = snackBarState) }) {
                 Column(Modifier.padding(it)) {
                     GameBoard(
                         boardSize = 3,
@@ -59,7 +75,8 @@ fun AppContent() {
                         orientationWidth = orientationWidth,
                         playerValue = { row, col ->
                             viewModel.getPlayer(row, col)
-                        }
+                        },
+                        buttonEnabled = !viewModel.isWinner
                     ) { row, col ->
                         viewModel.printPosition(row, col)
                     }
