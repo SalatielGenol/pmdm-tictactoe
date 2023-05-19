@@ -3,10 +3,10 @@ package es.genol.tictactoe.ui.elements
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
@@ -17,38 +17,37 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun GameBoard(
     boardSize: Int,
-    orientationHeight: Float,
-    orientationWidth: Float,
-    playerValue: (Int, Int) -> Boolean?,
+    playerValue: (Int) -> Boolean?,
     buttonEnabled: Boolean,
-    onButtonClick: (Int, Int) -> Unit
+    onButtonClick: (Int) -> Unit
 ) {
+    var gridId = 0
+    val grid = Array(boardSize) { IntArray(boardSize) { gridId++ } }
+
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(orientationHeight),
+        Modifier
+            .width(240.dp)
+            .aspectRatio(1f),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround
     ) {
-        if (orientationHeight == .42f) {
-            Spacer(modifier = Modifier.fillMaxHeight(.05f))
-        }
         repeat(boardSize) { row ->
             Row(
-                modifier = Modifier.fillMaxWidth(orientationWidth),
+                Modifier
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 repeat(boardSize) { col ->
                     Button(
-                        onClick = { onButtonClick(row, col) },
+                        onClick = { onButtonClick(grid[row][col]) },
                         modifier = Modifier.size(75.dp),
                         enabled = buttonEnabled,
                         shape = CircleShape
                     ) {
-                        playerValue(row, col)?.let { player ->
-                            if (player){
+                        playerValue(grid[row][col])?.let { player ->
+                            if (player) {
                                 CircleIcon()
-                            }else if(!player){
+                            } else {
                                 CrossIcon()
                             }
                         }
