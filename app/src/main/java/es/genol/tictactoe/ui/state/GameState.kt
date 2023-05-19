@@ -12,23 +12,31 @@ import kotlin.random.Random
 class GameState : ViewModel() {
     private var _gridState = MutableList(9) { Ficha() }.toMutableStateList()
     val gridState get() = _gridState.toList()
-    private var currentPlayer = ramdomPlayer()
 
-    var isWinner by mutableStateOf(false)
-        private set
+    private var _currentPlayer = ramdomPlayer()
+    val currentPlayer get() = !_currentPlayer
 
-    fun gridMarkPlayer(gridId: Int) {
+    private var _isWinner by mutableStateOf(false)
+    val isWinner get() = _isWinner
+
+    private var _moveNumber by mutableStateOf<Int?>(null)
+    val moveNumber get() = _moveNumber
+
+
+    fun playerMarkGrid(gridId: Int) {
         if (_gridState[gridId].player == null) {
-            _gridState[gridId] = _gridState[gridId].copy(player = currentPlayer)
-            isWinner = GameChecks(currentPlayer, gridData = gridState).playerWinnerCheck()
-            currentPlayer = !currentPlayer
+            _gridState[gridId] = _gridState[gridId].copy(player = _currentPlayer)
+            _isWinner = GameChecks(_currentPlayer, gridData = gridState).playerWinnerCheck()
+            _moveNumber = (_gridState.count { it.player != null })
+            _currentPlayer = !_currentPlayer
         }
     }
 
-    fun gridClean() {
+    fun cleanGrid() {
         repeat(9) { _gridState[it] = Ficha() }
-        currentPlayer = ramdomPlayer()
-        isWinner = false
+        _currentPlayer = ramdomPlayer()
+        _isWinner = false
+        _moveNumber = null
     }
 
     private fun ramdomPlayer() = (Random.nextBits(bitCount = 1) > 0)

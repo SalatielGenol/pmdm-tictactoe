@@ -8,12 +8,3 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import es.genol.tictactoe.ui.theme.CustomRed
 
-@Composable
-fun CrossIcon() {
-    Icon(
-        Icons.Default.Close,
-        contentDescription = "Cross red icon",
-        modifier = Modifier.fillMaxSize(),
-        tint = CustomRed
-    )
-}

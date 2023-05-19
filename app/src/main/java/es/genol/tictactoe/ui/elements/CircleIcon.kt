@@ -8,12 +8,3 @@ import androidx.compose.ui.res.painterResource
 import es.genol.tictactoe.R
 import es.genol.tictactoe.ui.theme.CustomGreen
 
-@Composable
-fun CircleIcon() {
-    Icon(
-        painter = painterResource(id = R.drawable.outline_circle_24),
-        contentDescription = "Cross red icon",
-        modifier = Modifier.fillMaxSize(),
-        tint = CustomGreen
-    )
-}
