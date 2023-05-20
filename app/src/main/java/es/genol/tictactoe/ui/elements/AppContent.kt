@@ -2,7 +2,6 @@ package es.genol.tictactoe.ui.elements
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,21 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import es.genol.tictactoe.ui.state.GameState
+import es.genol.tictactoe.ui.state.GameStateVM
 import es.genol.tictactoe.ui.theme.TicTacToeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppContent() {
-    val viewModel: GameState = viewModel()
-
-    if (viewModel.isWinner) {
-        WinnerDialog(winner = viewModel.currentPlayer, behavior = { viewModel.cleanGrid() })
-    }
-
-    if (viewModel.moveNumber == 9) {
-        DrawDialog(behavior = { viewModel.cleanGrid() })
-    }
+    val viewModel: GameStateVM = viewModel()
 
     TicTacToeTheme {
         Surface(
@@ -42,7 +33,7 @@ fun AppContent() {
                     TopAppBar(
                         title = { Text(text = "TicTacToe") },
                         actions = {
-                            if (viewModel.moveNumber != null) {
+                            if (viewModel.gridMarkCount != null) {
                                 Button(onClick = { viewModel.cleanGrid() }) {
                                     Text(text = "REINICIAR")
                                 }
@@ -54,15 +45,15 @@ fun AppContent() {
                     Modifier
                         .padding(it)
                         .padding(vertical = 15.dp)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     GameBoard(
                         boardSize = 3,
                         playerValue = { gridId ->
-                            viewModel.gridState[gridId].player
+                            viewModel.gridState[gridId].playerMark
                         },
-                        buttonEnabled = !viewModel.isWinner && viewModel.moveNumber != 9
+                        buttonEnabled = !viewModel.isWinner && viewModel.gridMarkCount != 9
                     ) { gridId ->
                         viewModel.playerMarkGrid(gridId)
                     }
@@ -70,5 +61,14 @@ fun AppContent() {
             }
         }
     }
+
+    if (viewModel.isWinner) {
+        WinnerDialog(winner = viewModel.currentPlayer, behavior = { viewModel.cleanGrid() })
+    }
+
+    if (viewModel.gridMarkCount == 9) {
+        DrawDialog(behavior = { viewModel.cleanGrid() })
+    }
+
 }
 

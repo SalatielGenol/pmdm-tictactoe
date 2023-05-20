@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -48,9 +49,9 @@ fun GameBoard(
                     ) {
                         playerValue(grid[row][col])?.let { player ->
                             if (player) {
-                                CircleIcon()
+                                CircleIcon(modifier = Modifier.fillMaxSize())
                             } else {
-                                CrossIcon()
+                                CrossIcon(modifier = Modifier.fillMaxSize())
                             }
                         }
                     }

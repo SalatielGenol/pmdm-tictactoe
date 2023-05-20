@@ -18,7 +18,7 @@ class GameChecks(private val player: Boolean, private val gridData: List<Ficha>)
             }
             result = 0
             for (gridId in start..(stage * 2 + start) step stage) {
-                if (gridData[gridId].player == player) {
+                if (gridData[gridId].playerMark == player) {
                     result++
                 }
                 if (result == 3) return true
@@ -32,7 +32,7 @@ class GameChecks(private val player: Boolean, private val gridData: List<Ficha>)
         for (start in 0..2) {
             result = 0
             for (gridId in start..start + 6 step 3) {
-                if (gridData[gridId].player == player) {
+                if (gridData[gridId].playerMark == player) {
                     result++
                 }
                 if (result == 3) return true
@@ -46,7 +46,7 @@ class GameChecks(private val player: Boolean, private val gridData: List<Ficha>)
         for (start in 0..6 step 3) {
             result = 0
             for (gridId in start..start + 2) {
-                if (gridData[gridId].player == player) {
+                if (gridData[gridId].playerMark == player) {
                     result++
                 }
                 if (result == 3) return true

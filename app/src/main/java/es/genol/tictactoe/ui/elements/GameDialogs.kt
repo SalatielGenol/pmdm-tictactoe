@@ -24,9 +24,9 @@ fun WinnerDialog(
         title = { Text(text = "Ganador!!!")},
         text = {
             if (winner) {
-                CircleIcon()
+                CircleIcon(modifier = Modifier.fillMaxSize())
             } else {
-                CrossIcon()
+                CrossIcon(modifier = Modifier.fillMaxSize())
             }
         }
     )
@@ -44,7 +44,7 @@ fun DrawDialog(
         Modifier.fillMaxSize(.95f),
         title = { Text(text = "Empate")},
         text = {
-            DrawIcon()
+            DrawIcon(modifier = Modifier.fillMaxSize())
         }
     )
 }

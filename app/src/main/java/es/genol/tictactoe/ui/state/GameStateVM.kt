@@ -9,7 +9,7 @@ import es.genol.tictactoe.GameChecks
 import es.genol.tictactoe.data.model.Ficha
 import kotlin.random.Random
 
-class GameState : ViewModel() {
+class GameStateVM : ViewModel() {
     private var _gridState = MutableList(9) { Ficha() }.toMutableStateList()
     val gridState get() = _gridState.toList()
 
@@ -19,15 +19,15 @@ class GameState : ViewModel() {
     private var _isWinner by mutableStateOf(false)
     val isWinner get() = _isWinner
 
-    private var _moveNumber by mutableStateOf<Int?>(null)
-    val moveNumber get() = _moveNumber
+    private var _gridMarkCount by mutableStateOf<Int?>(null)
+    val gridMarkCount get() = _gridMarkCount
 
 
     fun playerMarkGrid(gridId: Int) {
-        if (_gridState[gridId].player == null) {
-            _gridState[gridId] = _gridState[gridId].copy(player = _currentPlayer)
+        if (_gridState[gridId].playerMark == null) {
+            _gridState[gridId] = _gridState[gridId].copy(playerMark = _currentPlayer)
             _isWinner = GameChecks(_currentPlayer, gridData = gridState).playerWinnerCheck()
-            _moveNumber = (_gridState.count { it.player != null })
+            _gridMarkCount = (_gridState.count { it.playerMark != null })
             _currentPlayer = !_currentPlayer
         }
     }
@@ -36,7 +36,7 @@ class GameState : ViewModel() {
         repeat(9) { _gridState[it] = Ficha() }
         _currentPlayer = ramdomPlayer()
         _isWinner = false
-        _moveNumber = null
+        _gridMarkCount = null
     }
 
     private fun ramdomPlayer() = (Random.nextBits(bitCount = 1) > 0)
