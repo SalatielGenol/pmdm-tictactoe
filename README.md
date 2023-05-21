@@ -2,7 +2,7 @@
 
 ### Descripción
 
-TicTacToe es una aplicación para Android codificada en lenguaje Kotlin + Jetpack Compose como tarea de clase de la asignatura *Programación multimedia y dispositivos móviles*.
+TicTacToe es una aplicación para Android codificada en lenguaje Kotlin + Jetpack Compose que implementa el clásico juego tres en raya (TicTacToe en inglés) como tarea de clase de la asignatura *Programación multimedia y dispositivos móviles*.
 
 #### Detalles de interés
 
